@@ -184,7 +184,7 @@ namespace Hitachi_Astemo
 
                                 lbModel.Text = FileName;
 
-                                string VisionToolPath = AppDomain.CurrentDomain.BaseDirectory + "VPro_Program\\" + FileName + ".vpp";
+                                string VisionToolPath = AppDomain.CurrentDomain.BaseDirectory + "VPro_Program\\" + "HMLLOR.vpp";
                                 tbVisionTool = new CogToolBlock();
                                 tbVisionTool = CogSerializer.LoadObjectFromFile(VisionToolPath) as CogToolBlock;
 
@@ -324,6 +324,7 @@ namespace Hitachi_Astemo
             Invoke(new Action(() => 
             {
                 run_flag = 0;
+                tbLog.AppendText("run_flag = 0");
             }));
         }
 
