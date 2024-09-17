@@ -215,5 +215,15 @@ namespace Hitachi_Astemo
         {
             tbReceivedData.Text = (mainForm.PLC.ReadInt16("D1000").Content).ToString();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            tbReceivedData.Text = (mainForm.PLC.ReadInt16("D1100").Content).ToString();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            tbReceivedData.Text = (mainForm.PLC.ReadInt16("D1102").Content).ToString();
+        }
     }
 }

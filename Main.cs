@@ -209,18 +209,18 @@ namespace Hitachi_Astemo
                         Light.SetIntensity(2, intensity2);
                         Light.SetIntensity(3, intensity3);
                         Light.SetIntensity(4, intensity4);
-                        Thread.Sleep(100);
+                        Thread.Sleep(30);
 
                         tbGetImageTool.Run();
                         //if (tbGetImageTool.FailOnInvalidDataBinding) PLC.Write("M2011", (bool)true);
                         PLC.Write("M2010", (bool)true);
 
-                        Thread.Sleep(1000);
+                        Thread.Sleep(0);
 
-                        Light.SetIntensity(1, 0);
-                        Light.SetIntensity(2, 0);
-                        Light.SetIntensity(3, 0);
-                        Light.SetIntensity(4, 0);
+                        Light.SetIntensity(1, 10);
+                        Light.SetIntensity(2, 10);
+                        Light.SetIntensity(3, 10);
+                        Light.SetIntensity(4, 10);
 
                         tbImageProcessingTool.Inputs["InputImage"].Value = tbGetImageTool.OutputImage;
                         tbImageProcessingTool.Run();
@@ -236,12 +236,14 @@ namespace Hitachi_Astemo
                             if (result == 1)
                             {
                                 PLC.Write("M2020", (bool)true);
+                                tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm:ss")}: Pos 1 OK -> ");
                             }
                             else
                             {
                                 NG_Images.Insert(0, tbImageProcessingTool.CreateLastRunRecord().SubRecords[2]);
                                 if (NG_Images.Count > 4) NG_Images.RemoveAt(4);
                                 PLC.Write("M2030", (bool)true);
+                                tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm:ss")}: Pos 1 NG -> ");
                             }
                         }
 
@@ -251,13 +253,15 @@ namespace Hitachi_Astemo
                             result = (int)tbImageProcessingTool.Outputs["Pos2_Scored"].Value;
                             if (result == 1)
                             {
-                                PLC.Write("M2020", (bool)true);
+                                PLC.Write("M2021", (bool)true);
+                                tbLog.AppendText($"Pos 2 OK -> ");
                             }
                             else
                             {
                                 NG_Images.Insert(0, tbImageProcessingTool.CreateLastRunRecord().SubRecords[2]);
                                 if (NG_Images.Count > 4) NG_Images.RemoveAt(4);
                                 PLC.Write("M2031", (bool)true);
+                                tbLog.AppendText($"Pos 2 NG -> ");
                             }
                         }
 
@@ -267,13 +271,15 @@ namespace Hitachi_Astemo
                             result = (int)tbImageProcessingTool.Outputs["Pos3_Scored"].Value;
                             if (result == 1)
                             {
-                                PLC.Write("M2020", (bool)true);
+                                PLC.Write("M2022", (bool)true);
+                                tbLog.AppendText($"Pos 3 OK\r\n");
                             }
                             else
                             {
                                 NG_Images.Insert(0, tbImageProcessingTool.CreateLastRunRecord().SubRecords[2]);
                                 if (NG_Images.Count > 4) NG_Images.RemoveAt(4);
                                 PLC.Write("M2032", (bool)true);
+                                tbLog.AppendText($"Pos 3 NG\r\n");
                             }
                         }
 
@@ -281,6 +287,11 @@ namespace Hitachi_Astemo
                         {
                             NG_Display[i].Record = NG_Images[i];
                         }
+
+                        OK_Counter = (int)PLC.ReadInt16("D1102").Content;
+                        NG_Counter = (int)PLC.ReadInt16("D1100").Content;
+                        lbOkCounter.Text = OK_Counter.ToString();
+                        lbNgCounter.Text = NG_Counter.ToString();
                     }
                 }
                 catch (Exception ex)
@@ -395,7 +406,7 @@ namespace Hitachi_Astemo
                 if (connect.IsSuccess)
                 {
                     lbPLCConnected.Text = "Connected";
-                    lbPLCConnected.ForeColor = Color.Green;
+                    lbPLCConnected.ForeColor = Color.Lime;
                     tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Connected PLC\r\n");
                     //MessageBox.Show("Connected PLC");
                 }
@@ -435,9 +446,13 @@ namespace Hitachi_Astemo
                 else
                 {
                     lbLightsConnected.Text = "Connected";
-                    lbLightsConnected.ForeColor = Color.Green;
+                    lbLightsConnected.ForeColor = Color.Lime;
                     tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Connected Lights\r\n");
                     //MessageBox.Show("Connected Lights");
+                    Light.SetIntensity(1, 10);
+                    Light.SetIntensity(2, 10);
+                    Light.SetIntensity(3, 10);
+                    Light.SetIntensity(4, 10);
                 }
             }
 
