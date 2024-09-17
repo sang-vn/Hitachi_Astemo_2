@@ -31,8 +31,8 @@ namespace Hitachi_Astemo
 
         //Tool Block
         private CogToolBlock tbVisionTool = null;
-        //private CogAcqFifoTool tbGetImageTool = null;
-        private CogImageFileTool tbGetImageTool = null;
+        private CogAcqFifoTool tbGetImageTool = null;
+        //private CogImageFileTool tbGetImageTool = null;
         private CogToolBlock tbImageProcessingTool = null;
 
         private string Path_tbCamera;
@@ -155,147 +155,139 @@ namespace Hitachi_Astemo
         //Timer Trigger
         private void TimerTrigger_Elapsed(object sender, ElapsedEventArgs e)
         {
-            if (run_flag == 0)
+            Invoke(new Action(() =>
             {
-                timerTrigger.Stop();
-                timerTrigger.Enabled = false;
-            }
-            else
-            {
-                Invoke(new Action(() =>
+                try
                 {
-                    try
+                    int check_model = PLC.ReadInt16("D1000").Content;
+                    Invoke(new Action(() =>
                     {
-                        int check_model = PLC.ReadInt16("D1000").Content;
-                        Invoke(new Action(() =>
+                        //Kiểm tra model. Nếu có thay đổi thì Load lại chương trình xử lý ảnh, reset lại các biến đếm OK/NG
+                        if (model != check_model || tbVisionTool == null)
                         {
-                            //Kiểm tra model. Nếu có thay đổi thì Load lại chương trình xử lý ảnh, reset lại các biến đếm OK/NG
-                            if (model != check_model || tbVisionTool == null)
-                            {
-                                NG_Counter = 0;
-                                OK_Counter = 0;
-                                PLC.Write("D2000", (int)0);
-                                PLC.Write("D2001", (int)0);
+                            NG_Counter = 0;
+                            OK_Counter = 0;
+                            PLC.Write("D2000", (int)0);
+                            PLC.Write("D2001", (int)0);
 
-                                model = check_model;
-                                FileTXT fileTXT = new FileTXT();
-                                fileTXT.ReadFile(model, out FileName);
-                                fileTXT.Dispose();
+                            model = check_model;
+                            FileTXT fileTXT = new FileTXT();
+                            fileTXT.ReadFile(model, out FileName);
+                            fileTXT.Dispose();
 
-                                lbModel.Text = FileName;
+                            lbModel.Text = FileName;
 
-                                string VisionToolPath = AppDomain.CurrentDomain.BaseDirectory + "VPro_Program\\" + "HMLLOL.vpp";
-                                tbVisionTool = new CogToolBlock();
-                                tbVisionTool = CogSerializer.LoadObjectFromFile(VisionToolPath) as CogToolBlock;
+                            string VisionToolPath = AppDomain.CurrentDomain.BaseDirectory + "VPro_Program\\" + FileName + ".vpp";
+                            tbVisionTool = new CogToolBlock();
+                            tbVisionTool = CogSerializer.LoadObjectFromFile(VisionToolPath) as CogToolBlock;
 
-                                tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Change Program to {FileName}\r\n");
-                            }
-                        }));
+                            tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Change Program to {FileName}\r\n");
+                        }
+                    }));
 
-                        //Gán lại các tool trong Tool trong ToolBlock
-                        tbGetImageTool = tbVisionTool.Tools["CogImageFileTool1"] as CogImageFileTool;
-                        tbImageProcessingTool = tbVisionTool.Tools["CogToolBlock1"] as CogToolBlock;
+                    //Gán lại các tool trong Tool trong ToolBlock
+                    tbGetImageTool = tbVisionTool.Tools["CogAcqFifoTool1"] as CogAcqFifoTool;
+                    tbImageProcessingTool = tbVisionTool.Tools["CogToolBlock1"] as CogToolBlock;
 
-                        //Gán giá trị các biến đếm
-                        NG_Counter = PLC.ReadInt16("D2000").Content;
-                        OK_Counter = PLC.ReadInt16("D2001").Content;
-                        lbNgCounter.Text = NG_Counter.ToString();
-                        lbOkCounter.Text = OK_Counter.ToString();
+                    //Gán giá trị các biến đếm
+                    NG_Counter = PLC.ReadInt16("D2000").Content;
+                    OK_Counter = PLC.ReadInt16("D2001").Content;
+                    lbNgCounter.Text = NG_Counter.ToString();
+                    lbOkCounter.Text = OK_Counter.ToString();
 
-                        //Gán các giá trị độ sáng đèn
-                        intensity1 = (int)tbVisionTool.Inputs["Intensity1"].Value;
-                        intensity2 = (int)tbVisionTool.Inputs["Intensity2"].Value;
-                        intensity3 = (int)tbVisionTool.Inputs["Intensity3"].Value;
-                        intensity4 = (int)tbVisionTool.Inputs["Intensity4"].Value;
+                    //Gán các giá trị độ sáng đèn
+                    intensity1 = (int)tbVisionTool.Inputs["Intensity1"].Value;
+                    intensity2 = (int)tbVisionTool.Inputs["Intensity2"].Value;
+                    intensity3 = (int)tbVisionTool.Inputs["Intensity3"].Value;
+                    intensity4 = (int)tbVisionTool.Inputs["Intensity4"].Value;
 
-                        //Kiểm tra tín hiệu trigger
-                        trigger = PLC.ReadBool("M2001").Content;
-                        if (trigger)
+                    //Kiểm tra tín hiệu trigger
+                    trigger = PLC.ReadBool("M2001").Content;
+                    if (trigger)
+                    {
+                        Light.SetIntensity(1, intensity1);
+                        Light.SetIntensity(2, intensity2);
+                        Light.SetIntensity(3, intensity3);
+                        Light.SetIntensity(4, intensity4);
+                        Thread.Sleep(100);
+
+                        tbGetImageTool.Run();
+                        //if (tbGetImageTool.FailOnInvalidDataBinding) PLC.Write("M2011", (bool)true);
+                        PLC.Write("M2010", (bool)true);
+
+                        Thread.Sleep(1000);
+
+                        Light.SetIntensity(1, 0);
+                        Light.SetIntensity(2, 0);
+                        Light.SetIntensity(3, 0);
+                        Light.SetIntensity(4, 0);
+
+                        tbImageProcessingTool.Inputs["InputImage"].Value = tbGetImageTool.OutputImage;
+                        tbImageProcessingTool.Run();
+
+                        Display(cogRecordDisplay1, tbImageProcessingTool);
+                        int position = (int)tbImageProcessingTool.Outputs["Position"].Value;
+                        int result = 0;
+
+                        //Nếu là mặt 1
+                        if (position == 1)
                         {
-                            //Light.SetIntensity(1, intensity1);
-                            //Light.SetIntensity(2, intensity2);
-                            //Light.SetIntensity(3, intensity3);
-                            //Light.SetIntensity(4, intensity4);
-                            Thread.Sleep(100);
-
-                            tbGetImageTool.Run();
-                            //if (tbGetImageTool.FailOnInvalidDataBinding) PLC.Write("M2011", (bool)true);
-                            PLC.Write("M2010", (bool)true);
-
-                            Thread.Sleep(1000);
-
-                            //Light.SetIntensity(1, 0);
-                            //Light.SetIntensity(2, 0);
-                            //Light.SetIntensity(3, 0);
-                            //Light.SetIntensity(4, 0);
-
-                            tbImageProcessingTool.Inputs["InputImage"].Value = tbGetImageTool.OutputImage;
-                            tbImageProcessingTool.Run();
-
-                            Display(cogRecordDisplay1, tbImageProcessingTool);
-                            int position = (int)tbImageProcessingTool.Outputs["Position"].Value;
-                            int result = 0;
-
-                            //Nếu là mặt 1
-                            if (position == 1)
+                            result = (int)tbImageProcessingTool.Outputs["Pos1_Scored"].Value;
+                            if (result == 1)
                             {
-                                result = (int)tbImageProcessingTool.Outputs["Pos1_Scored"].Value;
-                                if (result == 1)
-                                {
-                                    PLC.Write("M2020", (bool)true);
-                                }
-                                else
-                                {
-                                    NG_Images.Insert(0, tbImageProcessingTool.CreateLastRunRecord().SubRecords[1]);
-                                    if (NG_Images.Count > 4) NG_Images.RemoveAt(4);
-                                    PLC.Write("M2030", (bool)true);
-                                }
+                                PLC.Write("M2020", (bool)true);
                             }
-
-                            //Nếu là mặt 2
-                            if (position == 2)
+                            else
                             {
-                                result = (int)tbImageProcessingTool.Outputs["Pos2_Scored"].Value;
-                                if (result == 1)
-                                {
-                                    PLC.Write("M2020", (bool)true);
-                                }
-                                else
-                                {
-                                    NG_Images.Insert(0, tbImageProcessingTool.CreateLastRunRecord().SubRecords[1]);
-                                    if (NG_Images.Count > 4) NG_Images.RemoveAt(4);
-                                    PLC.Write("M2031", (bool)true);
-                                }
-                            }
-
-                            //Nếu là mặt 3
-                            if (position == 3)
-                            {
-                                result = (int)tbImageProcessingTool.Outputs["Pos3_Scored"].Value;
-                                if (result == 1)
-                                {
-                                    PLC.Write("M2020", (bool)true);
-                                }
-                                else
-                                {
-                                    NG_Images.Insert(0, tbImageProcessingTool.CreateLastRunRecord().SubRecords[1]);
-                                    if (NG_Images.Count > 4) NG_Images.RemoveAt(4);
-                                    PLC.Write("M2032", (bool)true);
-                                }
-                            }
-
-                            for (int i = 0; i < NG_Images.Count; i++)
-                            {
-                                NG_Display[i].Record = NG_Images[i];
+                                NG_Images.Insert(0, tbImageProcessingTool.CreateLastRunRecord().SubRecords[2]);
+                                if (NG_Images.Count > 4) NG_Images.RemoveAt(4);
+                                PLC.Write("M2030", (bool)true);
                             }
                         }
+
+                        //Nếu là mặt 2
+                        if (position == 2)
+                        {
+                            result = (int)tbImageProcessingTool.Outputs["Pos2_Scored"].Value;
+                            if (result == 1)
+                            {
+                                PLC.Write("M2020", (bool)true);
+                            }
+                            else
+                            {
+                                NG_Images.Insert(0, tbImageProcessingTool.CreateLastRunRecord().SubRecords[2]);
+                                if (NG_Images.Count > 4) NG_Images.RemoveAt(4);
+                                PLC.Write("M2031", (bool)true);
+                            }
+                        }
+
+                        //Nếu là mặt 3
+                        if (position == 3)
+                        {
+                            result = (int)tbImageProcessingTool.Outputs["Pos3_Scored"].Value;
+                            if (result == 1)
+                            {
+                                PLC.Write("M2020", (bool)true);
+                            }
+                            else
+                            {
+                                NG_Images.Insert(0, tbImageProcessingTool.CreateLastRunRecord().SubRecords[2]);
+                                if (NG_Images.Count > 4) NG_Images.RemoveAt(4);
+                                PLC.Write("M2032", (bool)true);
+                            }
+                        }
+
+                        for (int i = 0; i < NG_Images.Count; i++)
+                        {
+                            NG_Display[i].Record = NG_Images[i];
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                }));
-            }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }));
             
         }
 
@@ -310,8 +302,6 @@ namespace Hitachi_Astemo
         #region Event Click Button
         private void bnBegin_Click(object sender, System.EventArgs e)
         {
-            run_flag = 1;
-
             timerTrigger.Enabled = true;
             timerTrigger.Start();
 
@@ -321,11 +311,11 @@ namespace Hitachi_Astemo
 
         private void bnEnd_Click(object sender, EventArgs e)
         {
-            Invoke(new Action(() => 
-            {
-                run_flag = 0;
-                tbLog.AppendText("run_flag = 0");
-            }));
+            timerTrigger.Stop();
+            timerTrigger.Enabled = false;
+
+            timerHeartBit.Stop();
+            timerHeartBit.Enabled = false;
         }
 
         //Setup Camera
@@ -381,7 +371,7 @@ namespace Hitachi_Astemo
                 tbVisionTool = new CogToolBlock();
                 tbVisionTool = CogSerializer.LoadObjectFromFile(VisionToolPath) as CogToolBlock;
 
-                tbGetImageTool = tbVisionTool.Tools["CogImageFileTool1"] as CogImageFileTool;
+                tbGetImageTool = tbVisionTool.Tools["CogAcqFifoTool1"] as CogAcqFifoTool;
                 tbImageProcessingTool = tbVisionTool.Tools["CogToolBlock1"] as CogToolBlock;
 
                 tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Loaded Program HMLLOR\r\n");
@@ -390,7 +380,7 @@ namespace Hitachi_Astemo
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show( ex.Message, "Load VPP Fail!");
             }
         }
 

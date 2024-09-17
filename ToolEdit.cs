@@ -21,10 +21,14 @@ namespace Hitachi_Astemo
         {
             InitializeComponent();
             path_2 = path_1;
-
-            CogToolBlock toolBlock1 = new CogToolBlock();
-            toolBlock1 = CogSerializer.LoadObjectFromFile(path_2) as CogToolBlock;
-            cogToolBlockEdit.Subject = toolBlock1;
+            try
+            {
+                CogToolBlock toolBlock1 = new CogToolBlock();
+                toolBlock1 = CogSerializer.LoadObjectFromFile(path_2) as CogToolBlock;
+                cogToolBlockEdit.Subject = toolBlock1;
+            }
+            catch (Exception ex)
+            { MessageBox.Show(ex.Message, "Load ToolBlock Fail!"); }
         }
 
         private void ToolEdit_FormClosing(object sender, FormClosingEventArgs e)
