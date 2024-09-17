@@ -162,7 +162,7 @@
             this.cbbUser.Location = new System.Drawing.Point(3, 5);
             this.cbbUser.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.cbbUser.Name = "cbbUser";
-            this.cbbUser.Size = new System.Drawing.Size(134, 33);
+            this.cbbUser.Size = new System.Drawing.Size(134, 28);
             this.cbbUser.TabIndex = 2;
             this.cbbUser.Text = "Operator";
             this.cbbUser.SelectedIndexChanged += new System.EventHandler(this.cbbUser_SelectedIndexChanged);
@@ -640,21 +640,21 @@
             // tsChuongTrinh_Menu1
             // 
             this.tsChuongTrinh_Menu1.Name = "tsChuongTrinh_Menu1";
-            this.tsChuongTrinh_Menu1.Size = new System.Drawing.Size(149, 35);
+            this.tsChuongTrinh_Menu1.Size = new System.Drawing.Size(120, 35);
             this.tsChuongTrinh_Menu1.Text = "Edit Programs";
             this.tsChuongTrinh_Menu1.Click += new System.EventHandler(this.tsChuongTrinh_Menu1_Click);
             // 
             // tsSetupCamera_Menu1
             // 
             this.tsSetupCamera_Menu1.Name = "tsSetupCamera_Menu1";
-            this.tsSetupCamera_Menu1.Size = new System.Drawing.Size(148, 35);
+            this.tsSetupCamera_Menu1.Size = new System.Drawing.Size(120, 35);
             this.tsSetupCamera_Menu1.Text = "Setup Camera";
             this.tsSetupCamera_Menu1.Click += new System.EventHandler(this.tsSetupCamera_Menu1_Click);
             // 
             // tsSetupPLC_Menu1
             // 
             this.tsSetupPLC_Menu1.Name = "tsSetupPLC_Menu1";
-            this.tsSetupPLC_Menu1.Size = new System.Drawing.Size(134, 35);
+            this.tsSetupPLC_Menu1.Size = new System.Drawing.Size(109, 35);
             this.tsSetupPLC_Menu1.Text = "Connect PLC";
             this.tsSetupPLC_Menu1.Click += new System.EventHandler(this.tsSetupPLC_Menu1_Click);
             // 
@@ -669,13 +669,13 @@
             // tsLogs_Menu1
             // 
             this.tsLogs_Menu1.Name = "tsLogs_Menu1";
-            this.tsLogs_Menu1.Size = new System.Drawing.Size(67, 35);
+            this.tsLogs_Menu1.Size = new System.Drawing.Size(55, 35);
             this.tsLogs_Menu1.Text = "Logs";
             // 
             // tsHelps_Menu1
             // 
             this.tsHelps_Menu1.Name = "tsHelps_Menu1";
-            this.tsHelps_Menu1.Size = new System.Drawing.Size(75, 35);
+            this.tsHelps_Menu1.Size = new System.Drawing.Size(61, 35);
             this.tsHelps_Menu1.Text = "Helps";
             // 
             // bnBegin
@@ -722,7 +722,7 @@
             // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1540, 845);

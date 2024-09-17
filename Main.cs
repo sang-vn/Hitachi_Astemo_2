@@ -109,7 +109,7 @@ namespace Hitachi_Astemo
             NG_Display.Add(cogRecordDisplay5);
 
             IntialPLC();
-            //IntialLights();
+            IntialLights();
             IntialProgram();
         }
 
@@ -184,7 +184,7 @@ namespace Hitachi_Astemo
 
                                 lbModel.Text = FileName;
 
-                                string VisionToolPath = AppDomain.CurrentDomain.BaseDirectory + "VPro_Program\\" + "HMJPOR.vpp";
+                                string VisionToolPath = AppDomain.CurrentDomain.BaseDirectory + "VPro_Program\\" + "HMLLOL.vpp";
                                 tbVisionTool = new CogToolBlock();
                                 tbVisionTool = CogSerializer.LoadObjectFromFile(VisionToolPath) as CogToolBlock;
 
@@ -468,20 +468,14 @@ namespace Hitachi_Astemo
             switch (cbbUser.SelectedIndex)
             {
                 case 0:
-                    tsChuongTrinh_Menu1.Enabled = true;
-                    tsSetupCamera_Menu1.Enabled = true;
-                    tsSetupPLC_Menu1.Enabled = true;
-                    tsSetupLights_Menu1.Enabled = true;
-                    tsLogs_Menu1.Enabled = true;
-                    tsHelps_Menu1.Enabled = true;
+                    Login login1 = new Login("admin");
+                    login1.IPChanged += Login_Admin;
+                    login1.Show();
                     break;
                 case 1:
-                    tsChuongTrinh_Menu1.Enabled = false;
-                    tsSetupCamera_Menu1.Enabled = true;
-                    tsSetupPLC_Menu1.Enabled = true;
-                    tsSetupLights_Menu1.Enabled = true;
-                    tsLogs_Menu1.Enabled = true;
-                    tsHelps_Menu1.Enabled = true;
+                    Login login2 = new Login("programmer");
+                    login2.IPChanged += Login_Programmer;
+                    login2.Show();
                     break;
                 case 2:
                     tsChuongTrinh_Menu1.Enabled = false;
@@ -494,6 +488,26 @@ namespace Hitachi_Astemo
                 default:
                     break;
              }
+        }
+
+        private void Login_Admin(object sender, EventArgs e)
+        {
+            tsChuongTrinh_Menu1.Enabled = true;
+            tsSetupCamera_Menu1.Enabled = true;
+            tsSetupPLC_Menu1.Enabled = true;
+            tsSetupLights_Menu1.Enabled = true;
+            tsLogs_Menu1.Enabled = true;
+            tsHelps_Menu1.Enabled = true;
+        }
+
+        private void Login_Programmer(object sender, EventArgs e)
+        {
+            tsChuongTrinh_Menu1.Enabled = false;
+            tsSetupCamera_Menu1.Enabled = true;
+            tsSetupPLC_Menu1.Enabled = true;
+            tsSetupLights_Menu1.Enabled = true;
+            tsLogs_Menu1.Enabled = true;
+            tsHelps_Menu1.Enabled = true;
         }
 
         private void tsChuongTrinh_Menu1_Click(object sender, EventArgs e)

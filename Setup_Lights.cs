@@ -31,7 +31,7 @@ namespace Hitachi_Astemo
 
         private void Setup_Lights_Load(object sender, EventArgs e)
         {
-            if (mainForm.Light == null) light = new OPTControllerAPI();
+            if (mainForm.Light == null) mainForm.Light = new OPTControllerAPI();
             mainForm.Light.CreateEthernetConnectionByIP("192.168.1.16");
 
             bnConnect.Text = "Disconnect";
