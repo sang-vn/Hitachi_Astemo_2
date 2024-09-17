@@ -167,8 +167,8 @@ namespace Hitachi_Astemo
                         {
                             NG_Counter = 0;
                             OK_Counter = 0;
-                            PLC.Write("D2000", (int)0);
-                            PLC.Write("D2001", (int)0);
+                            //PLC.Write("D1100", (int)0);
+                            //PLC.Write("D1102", (int)0);
 
                             model = check_model;
                             FileTXT fileTXT = new FileTXT();
@@ -190,8 +190,8 @@ namespace Hitachi_Astemo
                     tbImageProcessingTool = tbVisionTool.Tools["CogToolBlock1"] as CogToolBlock;
 
                     //Gán giá trị các biến đếm
-                    NG_Counter = PLC.ReadInt16("D2000").Content;
-                    OK_Counter = PLC.ReadInt16("D2001").Content;
+                    NG_Counter = PLC.ReadInt16("D1100").Content;
+                    OK_Counter = PLC.ReadInt16("D1102").Content;
                     lbNgCounter.Text = NG_Counter.ToString();
                     lbOkCounter.Text = OK_Counter.ToString();
 
@@ -287,11 +287,6 @@ namespace Hitachi_Astemo
                         {
                             NG_Display[i].Record = NG_Images[i];
                         }
-
-                        OK_Counter = (int)PLC.ReadInt16("D1102").Content;
-                        NG_Counter = (int)PLC.ReadInt16("D1100").Content;
-                        lbOkCounter.Text = OK_Counter.ToString();
-                        lbNgCounter.Text = NG_Counter.ToString();
                     }
                 }
                 catch (Exception ex)
@@ -318,6 +313,8 @@ namespace Hitachi_Astemo
 
             timerHeartBit.Enabled = true;
             timerHeartBit.Start();
+
+            tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm:ss")}: __BEGIN__\r\n");
         }
 
         private void bnEnd_Click(object sender, EventArgs e)
@@ -327,6 +324,7 @@ namespace Hitachi_Astemo
 
             timerHeartBit.Stop();
             timerHeartBit.Enabled = false;
+            tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm:ss")}: __END__\r\n");
         }
 
         //Setup Camera
