@@ -18,11 +18,6 @@ namespace Hitachi_Astemo
         OPTControllerAPI light = null;
         private Main mainForm = null;
 
-        private int in1 = 0;
-        private int in2 = 0;
-        private int in3 = 0;
-        private int in4 = 0;
-
         public Setup_Lights(Main main)
         {
             InitializeComponent();

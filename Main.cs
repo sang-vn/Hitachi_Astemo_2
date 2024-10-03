@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using Cognex.VisionPro.ToolBlock;
 using System.IO;
 using Cognex.VisionPro;
-using Cognex.VisionPro.ToolBlock;
+//using Cognex.VisionPro.ToolBlock;
 using System.Security.Cryptography;
 using System.Net.Sockets;
 using CSharp_OPTControllerAPI;
@@ -34,9 +34,6 @@ namespace Hitachi_Astemo
         private CogAcqFifoTool tbGetImageTool = null;
         //private CogImageFileTool tbGetImageTool = null;
         private CogToolBlock tbImageProcessingTool = null;
-
-        private string Path_tbCamera;
-        private string Path_tbVisionTool;
 
         //Intial connect PLC 
         public HslCommunication.Profinet.Melsec.MelsecA1ENet PLC = null;

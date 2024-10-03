@@ -17,7 +17,6 @@ namespace Hitachi_Astemo
     {
         public string[] lstModel = null;
         public string GetChangeProduct = null;
-        public event EventHandler ChangedProduct;
         public CogToolBlock cogtoolblock = null;
         public string pathToolBlock;
 

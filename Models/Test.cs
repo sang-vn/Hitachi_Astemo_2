@@ -13,9 +13,7 @@ namespace Hitachi_Astemo.Models
     public partial class Test : Form
     {
         FileTXT fileTXT = null;
-        int index;
         public string maSp;
-        double exposure;
         public Test()
         {
             InitializeComponent();

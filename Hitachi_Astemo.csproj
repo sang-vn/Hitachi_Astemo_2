@@ -60,10 +60,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Cognex.Rbbt.Net, Version=9.21.1.1, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Cognex\VisionPro\bin\Cognex.Rbbt.Net.dll</HintPath>
-    </Reference>
     <Reference Include="Cognex.Vision.Acquisition.Net, Version=9.21.1.1, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Cognex\VisionPro\bin\Cognex.Vision.Acquisition.Net.dll</HintPath>
@@ -71,10 +67,6 @@
     <Reference Include="Cognex.Vision.Color.Net, Version=9.21.1.1, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Cognex\VisionPro\bin\Cognex.Vision.Color.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="Cognex.Vision.Core.Net, Version=9.21.1.1, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files\Cognex\VisionPro\bin\Cognex.Vision.Core.Net.dll</HintPath>
     </Reference>
     <Reference Include="Cognex.Vision.Display.Core.Net, Version=9.21.1.1, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
@@ -115,15 +107,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Cognex\VisionPro\bin\Cognex.Vision.SmartLine.Net.dll</HintPath>
     </Reference>
-    <Reference Include="Cognex.Vision.Startup.Net">
+    <Reference Include="Cognex.Vision.Startup.Net, Version=9.21.1.1, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files\Cognex\VisionPro\bin\Cognex.Vision.Startup.Net.dll</HintPath>
     </Reference>
     <Reference Include="Cognex.Vision.Utility.Net, Version=9.21.1.1, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Cognex\VisionPro\bin\Cognex.Vision.Utility.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="Cognex.Vision.ViDiELClassify.Net">
-      <HintPath>C:\Program Files\Cognex\VisionPro\bin\Cognex.Vision.ViDiELClassify.Net.dll</HintPath>
     </Reference>
     <Reference Include="Cognex.Vision.ViDiELOCR.Net">
       <HintPath>C:\Program Files\Cognex\VisionPro\bin\Cognex.Vision.ViDiELOCR.Net.dll</HintPath>
@@ -142,23 +132,11 @@
     </Reference>
     <Reference Include="Cognex.VisionPro.Inspection, Version=85.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505" />
     <Reference Include="Cognex.VisionPro.Inspection.Controls, Version=85.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64" />
-    <Reference Include="Cognex.VisionPro.Interop.Core, Version=85.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\..\..\..\..\..\Program Files\Cognex\VisionPro\ReferencedAssemblies\Cognex.VisionPro.Interop.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Cognex.VisionPro.ToolGroup, Version=85.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505" />
     <Reference Include="Cognex.VisionPro.ToolGroup.Controls, Version=85.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64" />
-    <Reference Include="Cognex.VisionPro.ViDiEL, Version=85.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
+    <Reference Include="HslCommunication, Version=12.1.1.0, Culture=neutral, PublicKeyToken=3d72ad3b6b5ec0e3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files\Cognex\VisionPro\ReferencedAssemblies\Cognex.VisionPro.ViDiEL.dll</HintPath>
-    </Reference>
-    <Reference Include="Cognex.VisionPro.VisionInterop, Version=85.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files\Cognex\VisionPro\ReferencedAssemblies\Cognex.VisionPro.VisionInterop.dll</HintPath>
-    </Reference>
-    <Reference Include="HslCommunication">
-      <HintPath>D:\Chuong trinh Hitachi\Sample\HslCommunicationDemo-8.1.2\HslCommunication.dll</HintPath>
+      <HintPath>..\..\..\..\Downloads\HslCommunicationDemo-v12.1.1\HslCommunication.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <HintPath>packages\OpenCvSharp4.4.10.0.20240616\lib\net48\OpenCvSharp.dll</HintPath>
