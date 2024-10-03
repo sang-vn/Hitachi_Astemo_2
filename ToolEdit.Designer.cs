@@ -73,6 +73,7 @@
             this.cogToolBlockEdit.Size = new System.Drawing.Size(1325, 704);
             this.cogToolBlockEdit.SuspendElectricRuns = false;
             this.cogToolBlockEdit.TabIndex = 1;
+            this.cogToolBlockEdit.SubjectChanged += new System.EventHandler(this.cogToolBlockEdit_SubjectChanged);
             // 
             // ToolEdit
             // 
@@ -85,7 +86,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ToolEdit";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ToolEdit_FormClosing);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.cogToolBlockEdit)).EndInit();
             this.ResumeLayout(false);

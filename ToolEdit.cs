@@ -25,15 +25,17 @@ namespace Hitachi_Astemo
             {
                 CogToolBlock toolBlock1 = new CogToolBlock();
                 toolBlock1 = CogSerializer.LoadObjectFromFile(path_2) as CogToolBlock;
-                cogToolBlockEdit.Subject = toolBlock1;
+                //cogToolBlockEdit.Subject = toolBlock1;
+                path_2 = cogToolBlockEdit.Subject.Name;
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message, "Load ToolBlock Fail!"); }
+            { MessageBox.Show(ex.Message, "Load ToolBlock Fail!");}
         }
 
-        private void ToolEdit_FormClosing(object sender, FormClosingEventArgs e)
+        private void cogToolBlockEdit_SubjectChanged(object sender, EventArgs e)
         {
-
+            MessageBox.Show(path_2);
+            path_2 = cogToolBlockEdit.Subject.Name;
         }
     }
 }

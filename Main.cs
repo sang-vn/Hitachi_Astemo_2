@@ -37,7 +37,6 @@ namespace Hitachi_Astemo
 
         //Intial connect PLC 
         public HslCommunication.Profinet.Melsec.MelsecA1ENet PLC = null;
-        private int Port_PLC = 3000;
 
         //Intial connect Lights
         public OPTControllerAPI Light = null;
@@ -104,9 +103,9 @@ namespace Hitachi_Astemo
             NG_Display.Add(cogRecordDisplay4);
             NG_Display.Add(cogRecordDisplay5);
 
-            IntialPLC();
-            IntialLights();
-            IntialProgram();
+            //IntialPLC();
+            //IntialLights();
+            //IntialProgram();
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
