@@ -33,6 +33,7 @@ namespace Hitachi_Astemo
 
         private void ToolEdit_FormClosing(object sender, FormClosingEventArgs e)
         {
+
         }
     }
 }

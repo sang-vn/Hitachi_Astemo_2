@@ -37,7 +37,6 @@ namespace Hitachi_Astemo
 
         //Intial connect PLC 
         public HslCommunication.Profinet.Melsec.MelsecA1ENet PLC = null;
-        private string IpAddress_PLC = "192.168.1.100";
         private int Port_PLC = 3000;
 
         //Intial connect Lights
@@ -164,8 +163,6 @@ namespace Hitachi_Astemo
                         {
                             NG_Counter = 0;
                             OK_Counter = 0;
-                            //PLC.Write("D1100", (int)0);
-                            //PLC.Write("D1102", (int)0);
 
                             model = check_model;
                             FileTXT fileTXT = new FileTXT();
@@ -435,7 +432,7 @@ namespace Hitachi_Astemo
                     lbLightsConnected.Text = "Disconnected";
                     lbLightsConnected.ForeColor = Color.Red;
                     tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Can not connect Lights\r\n");
-                    //MessageBox.Show("Cannot connect Lights");
+                    MessageBox.Show("Cannot connect Lights");
                     return;
                 }
                 else

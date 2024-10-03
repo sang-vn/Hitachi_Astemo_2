@@ -20,7 +20,7 @@ namespace Hitachi_Astemo
             Control.CheckForIllegalCrossThreadCalls = false;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main());
+            Application.Run(new ToolEdit("aaa"));
         }
     }
 }

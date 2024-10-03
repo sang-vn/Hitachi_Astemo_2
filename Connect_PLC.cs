@@ -24,7 +24,6 @@ namespace Hitachi_Astemo
     public partial class Connect_PLC : Form
     {
         //Intial connect PLC 
-        private string IpAddress = "192.168.1.100";
         private int Port = 3000;
 
         private Main mainForm;
