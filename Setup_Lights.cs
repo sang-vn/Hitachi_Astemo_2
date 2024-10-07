@@ -29,15 +29,15 @@ namespace Hitachi_Astemo
             if (mainForm.Light == null) mainForm.Light = new OPTControllerAPI();
             mainForm.Light.CreateEthernetConnectionByIP("192.168.1.16");
 
-            bnConnect.Text = "Disconnect";
-            lbNotice.Text = "Connected";
+            bnConnect.Text = "Ngắt kết nối";
+            lbNotice.Text = "Kết nối";
             lbNotice.BackColor = Color.Green;
             
         }
 
         private void bnConnect_Click(object sender, EventArgs e)
         {
-            if(bnConnect.Text == "Connect")
+            if(bnConnect.Text == "Kết nối")
             {
                 long lRet = -1;
 
@@ -46,18 +46,18 @@ namespace Hitachi_Astemo
                     lRet = mainForm.Light.CreateEthernetConnectionByIP("192.168.1.16");
                     if (0 != lRet)
                     {
-                        bnConnect.Text = "Connect";
-                        lbNotice.Text = "Disconnected";
+                        bnConnect.Text = "Kết nối";
+                        lbNotice.Text = "Đã ngắt kết nối";
                         lbNotice.BackColor = Color.Red;
-                        MessageBox.Show("Can not connect Lights");
+                        MessageBox.Show("Không thể kết nối với Đèn");
                         return;
                     }
                     else
                     {
-                        bnConnect.Text = "Disconnect";
-                        lbNotice.Text = "Connected";
+                        bnConnect.Text = "Ngắt kết nối";
+                        lbNotice.Text = "Đã kết nối";
                         lbNotice.BackColor = Color.Green;
-                        MessageBox.Show("Connected Lights");
+                        MessageBox.Show("Đã ngắt kết nối với Đèn");
                         light.SetIntensity(1, trackBar1.Value);
                         light.SetIntensity(2, trackBar2.Value);
                         light.SetIntensity(3, trackBar3.Value);
@@ -69,9 +69,9 @@ namespace Hitachi_Astemo
                     MessageBox.Show(ex.Message);
                 }
             }
-            else if(bnConnect.Text == "Disconnect")
+            else if(bnConnect.Text == "Ngắt kết nối")
             {
-                lbNotice.Text = "Disconnected";
+                lbNotice.Text = "Đã ngắt kết nối";
                 lbNotice.BackColor = Color.Red;
                 mainForm.Light.DestroyEthernetConnect();
             }

@@ -20,7 +20,7 @@ namespace Hitachi_Astemo
             Control.CheckForIllegalCrossThreadCalls = false;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ToolEdit("C:\\Users\\trinh\\Source\\Repos\\sang-vn\\Hitachi_Astemo_2\\bin\\Debug\\VPro Program\\Cam_1.vpp"));
+            Application.Run(new Main());
         }
     }
 }

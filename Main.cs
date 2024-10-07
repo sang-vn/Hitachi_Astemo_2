@@ -61,10 +61,6 @@ namespace Hitachi_Astemo
         private List<ICogRecord> NG_Images = new List<ICogRecord>();
         private List<CogRecordDisplay> NG_Display = new List<CogRecordDisplay>(); 
 
-        DateTime dateTime = new DateTime();
-
-
-
         public Main()
         {
             InitializeComponent();
@@ -96,7 +92,7 @@ namespace Hitachi_Astemo
             lbNgCounter.Text = NG_Counter.ToString();
             lbOkCounter.Text = OK_Counter.ToString();
 
-            tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Open Program\r\n");
+            tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Mở phần mềm kiểm tra thành công\r\n");
 
             NG_Display.Add(cogRecordDisplay2);
             NG_Display.Add(cogRecordDisplay3);
@@ -110,11 +106,11 @@ namespace Hitachi_Astemo
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //Dispose Timer
-            timerHeartBit.Stop();
-            timerHeartBit.Dispose();
-            timerTrigger.Stop();
-            timerTrigger.Dispose();
+            ////Dispose Timer
+            //timerHeartBit.Stop();
+            //timerHeartBit.Dispose();
+            //timerTrigger.Stop();
+            //timerTrigger.Dispose();
 
             //Disconnect Lights
             //long lRet = -1;
@@ -122,9 +118,9 @@ namespace Hitachi_Astemo
             //if (lRet != 0) MessageBox.Show("Failed to disconnect Lights");
             //else MessageBox.Show("Disconnected Lights");
 
-            //Disconnect PLC
-            PLC.ConnectClose();
-            PLC.Dispose();
+            ////Disconnect PLC
+            //PLC.ConnectClose();
+            //PLC.Dispose();
 
 
         }
@@ -174,7 +170,7 @@ namespace Hitachi_Astemo
                             tbVisionTool = new CogToolBlock();
                             tbVisionTool = CogSerializer.LoadObjectFromFile(VisionToolPath) as CogToolBlock;
 
-                            tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Change Program to {FileName}\r\n");
+                            tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Đổi chương trình sang mã {FileName}\r\n");
                         }
                     }));
 
@@ -229,14 +225,14 @@ namespace Hitachi_Astemo
                             if (result == 1)
                             {
                                 PLC.Write("M2020", (bool)true);
-                                tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm:ss")}: Pos 1 OK -> ");
+                                tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm:ss")}: Vị trí 1 OK -> ");
                             }
                             else
                             {
                                 NG_Images.Insert(0, tbImageProcessingTool.CreateLastRunRecord().SubRecords[2]);
                                 if (NG_Images.Count > 4) NG_Images.RemoveAt(4);
                                 PLC.Write("M2030", (bool)true);
-                                tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm:ss")}: Pos 1 NG -> ");
+                                tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm:ss")}: Vị trí 1 NG -> ");
                             }
                         }
 
@@ -247,14 +243,14 @@ namespace Hitachi_Astemo
                             if (result == 1)
                             {
                                 PLC.Write("M2021", (bool)true);
-                                tbLog.AppendText($"Pos 2 OK -> ");
+                                tbLog.AppendText($"Vị trí 2 OK -> ");
                             }
                             else
                             {
                                 NG_Images.Insert(0, tbImageProcessingTool.CreateLastRunRecord().SubRecords[2]);
                                 if (NG_Images.Count > 4) NG_Images.RemoveAt(4);
                                 PLC.Write("M2031", (bool)true);
-                                tbLog.AppendText($"Pos 2 NG -> ");
+                                tbLog.AppendText($"Vị trí 2 NG -> ");
                             }
                         }
 
@@ -265,14 +261,14 @@ namespace Hitachi_Astemo
                             if (result == 1)
                             {
                                 PLC.Write("M2022", (bool)true);
-                                tbLog.AppendText($"Pos 3 OK\r\n");
+                                tbLog.AppendText($"Vị trí 3 OK\r\n");
                             }
                             else
                             {
                                 NG_Images.Insert(0, tbImageProcessingTool.CreateLastRunRecord().SubRecords[2]);
                                 if (NG_Images.Count > 4) NG_Images.RemoveAt(4);
                                 PLC.Write("M2032", (bool)true);
-                                tbLog.AppendText($"Pos 3 NG\r\n");
+                                tbLog.AppendText($"Vị trí 3 NG\r\n");
                             }
                         }
 
@@ -307,7 +303,7 @@ namespace Hitachi_Astemo
             timerHeartBit.Enabled = true;
             timerHeartBit.Start();
 
-            tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm:ss")}: __BEGIN__\r\n");
+            tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm:ss")}: __BẮT ĐẦU__\r\n");
         }
 
         private void bnEnd_Click(object sender, EventArgs e)
@@ -317,7 +313,7 @@ namespace Hitachi_Astemo
 
             timerHeartBit.Stop();
             timerHeartBit.Enabled = false;
-            tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm:ss")}: __END__\r\n");
+            tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm:ss")}: __KẾT THÚC__\r\n");
         }
 
         //Setup Camera
@@ -376,7 +372,7 @@ namespace Hitachi_Astemo
                 tbGetImageTool = tbVisionTool.Tools["CogAcqFifoTool1"] as CogAcqFifoTool;
                 tbImageProcessingTool = tbVisionTool.Tools["CogToolBlock1"] as CogToolBlock;
 
-                tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Loaded Program HMLLOR\r\n");
+                tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Mở chương trình mã HMLLOR\r\n");
 
                 lbModel.Text = "HMLLOR";
             }
@@ -396,16 +392,16 @@ namespace Hitachi_Astemo
                 OperateResult connect = PLC.ConnectServer();
                 if (connect.IsSuccess)
                 {
-                    lbPLCConnected.Text = "Connected";
+                    lbPLCConnected.Text = "Đã kết nối";
                     lbPLCConnected.ForeColor = Color.Lime;
-                    tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Connected PLC\r\n");
+                    tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Đã kết nối PLC\r\n");
                     //MessageBox.Show("Connected PLC");
                 }
                 else
                 {
-                    lbPLCConnected.Text = "Disconnected";
+                    lbPLCConnected.Text = "Không kết nối";
                     lbPLCConnected.ForeColor = Color.Red;
-                    tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Can not connect PLC\r\n");
+                    tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Không thể kết nối PLC\r\n");
                     MessageBox.Show("Can not connected PLC");
                 }
                 
@@ -428,17 +424,17 @@ namespace Hitachi_Astemo
                 lRet = Light.CreateEthernetConnectionByIP(IpAddress_Lights);
                 if (0 != lRet)
                 {
-                    lbLightsConnected.Text = "Disconnected";
+                    lbLightsConnected.Text = "Không kết nối";
                     lbLightsConnected.ForeColor = Color.Red;
-                    tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Can not connect Lights\r\n");
+                    tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Không thể kết nối Đèn\r\n");
                     MessageBox.Show("Cannot connect Lights");
                     return;
                 }
                 else
                 {
-                    lbLightsConnected.Text = "Connected";
+                    lbLightsConnected.Text = "Đã kết nối";
                     lbLightsConnected.ForeColor = Color.Lime;
-                    tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Connected Lights\r\n");
+                    tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Đã kết nối Đèn\r\n");
                     //MessageBox.Show("Connected Lights");
                     Light.SetIntensity(1, 10);
                     Light.SetIntensity(2, 10);

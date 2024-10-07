@@ -40,18 +40,18 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(35, 27);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(76, 16);
+            this.label1.Size = new System.Drawing.Size(123, 20);
             this.label1.TabIndex = 0;
-            this.label1.Text = "User Name";
+            this.label1.Text = "Tên đăng nhập";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(38, 69);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 16);
+            this.label2.Size = new System.Drawing.Size(76, 20);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Password";
+            this.label2.Text = "Mật khẩu";
             // 
             // tbUserName
             // 
@@ -71,11 +71,11 @@
             // bnLogin
             // 
             this.bnLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.bnLogin.Location = new System.Drawing.Point(93, 110);
+            this.bnLogin.Location = new System.Drawing.Point(89, 108);
             this.bnLogin.Name = "bnLogin";
-            this.bnLogin.Size = new System.Drawing.Size(75, 35);
+            this.bnLogin.Size = new System.Drawing.Size(115, 35);
             this.bnLogin.TabIndex = 4;
-            this.bnLogin.Text = "Login";
+            this.bnLogin.Text = "Đăng nhập";
             this.bnLogin.UseVisualStyleBackColor = true;
             this.bnLogin.Click += new System.EventHandler(this.bnLogin_Click);
             // 
@@ -91,7 +91,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Login";
+            this.Text = "Đăng nhập";
             this.Load += new System.EventHandler(this.Login_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

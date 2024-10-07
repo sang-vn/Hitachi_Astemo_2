@@ -56,7 +56,7 @@
             this.bnConnect.Name = "bnConnect";
             this.bnConnect.Size = new System.Drawing.Size(129, 35);
             this.bnConnect.TabIndex = 0;
-            this.bnConnect.Text = "Connect";
+            this.bnConnect.Text = "Kết nối";
             this.bnConnect.UseVisualStyleBackColor = false;
             this.bnConnect.Click += new System.EventHandler(this.bnConnect_Click);
             // 
@@ -149,7 +149,7 @@
             this.lbNotice.Name = "lbNotice";
             this.lbNotice.Size = new System.Drawing.Size(150, 42);
             this.lbNotice.TabIndex = 13;
-            this.lbNotice.Text = "Disconnected";
+            this.lbNotice.Text = "Đã ngắt kết nối";
             this.lbNotice.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // textBox1
@@ -202,7 +202,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Setup_Lights";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Setup_Lights";
+            this.Text = "Thiết lập kết nối Đèn";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Setup_Lights_FormClosing);
             this.Load += new System.EventHandler(this.Setup_Lights_Load);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
