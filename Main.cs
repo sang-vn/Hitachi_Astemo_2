@@ -23,6 +23,7 @@ using HslCommunication.Profinet;
 using Cognex.VisionPro.ImageFile;
 using System.Windows.Forms.VisualStyles;
 using Hitachi_Astemo.Models;
+using System.Windows;
 
 namespace Hitachi_Astemo
 {
@@ -52,6 +53,7 @@ namespace Hitachi_Astemo
         private bool trigger = false;
         private int model = 1;
         public string FileName = "HMLLOR";
+        public string pathNG;
 
         private System.Timers.Timer timerTrigger = new System.Timers.Timer();
         private System.Timers.Timer timerHeartBit = new System.Timers.Timer();
@@ -150,6 +152,27 @@ namespace Hitachi_Astemo
             {
                 try
                 {
+                    //Xóa file ảnh NG quá 7 ngày
+                    int daysOld = 7;
+                    //lấy danh sách các tệp trong thư mục NG_Images
+                    string[] Files = Directory.GetFiles("C:\\NG_Images", "*.bmp");
+                    foreach (string file in Files)
+                    {
+                        DateTime fileTime = File.GetCreationTime(file);
+                        if (fileTime < DateTime.Now.AddDays(-daysOld))
+                        {
+                            try
+                            {
+                                // Xóa tệp
+                                File.Delete(file);
+                            }
+                            catch(Exception ex)
+                            {
+                                System.Windows.Forms.MessageBox.Show(ex.Message);
+                            }
+                        }
+                    }
+
                     int check_model = PLC.ReadInt16("D1000").Content;
                     Invoke(new Action(() =>
                     {
@@ -233,6 +256,11 @@ namespace Hitachi_Astemo
                                 if (NG_Images.Count > 4) NG_Images.RemoveAt(4);
                                 PLC.Write("M2030", (bool)true);
                                 tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm:ss")}: Vị trí 1 NG -> ");
+                                pathNG = "C:\\NG_Images\\" + FileName + "_VT1_" + DateTime.Now.ToString("ddMMyy_HH-mm-ss") + ".bmp";
+                                CogImageFile bmp = new CogImageFile();
+                                bmp.Open(pathNG, CogImageFileModeConstants.Write);
+                                bmp.Append(tbGetImageTool.OutputImage);
+                                bmp.Close();
                             }
                         }
 
@@ -251,6 +279,12 @@ namespace Hitachi_Astemo
                                 if (NG_Images.Count > 4) NG_Images.RemoveAt(4);
                                 PLC.Write("M2031", (bool)true);
                                 tbLog.AppendText($"Vị trí 2 NG -> ");
+                                //Save NG Images
+                                pathNG = "C:\\NG_Images\\" + FileName + "_VT2_" + DateTime.Now.ToString("ddMMyy_HH-mm-ss") + ".bmp";
+                                CogImageFile bmp = new CogImageFile();
+                                bmp.Open(pathNG, CogImageFileModeConstants.Write);
+                                bmp.Append(tbGetImageTool.OutputImage);
+                                bmp.Close();
                             }
                         }
 
@@ -269,6 +303,12 @@ namespace Hitachi_Astemo
                                 if (NG_Images.Count > 4) NG_Images.RemoveAt(4);
                                 PLC.Write("M2032", (bool)true);
                                 tbLog.AppendText($"Vị trí 3 NG\r\n");
+                                //Save NG Images
+                                pathNG = "C:\\NG_Images\\" + FileName + "_VT3_" + DateTime.Now.ToString("ddMMyy_HH-mm-ss") + ".bmp";
+                                CogImageFile bmp = new CogImageFile();
+                                bmp.Open(pathNG, CogImageFileModeConstants.Write);
+                                bmp.Append(tbGetImageTool.OutputImage);
+                                bmp.Close();
                             }
                         }
 
@@ -280,7 +320,7 @@ namespace Hitachi_Astemo
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    System.Windows.Forms.MessageBox.Show(ex.Message);
                 }
             }));
             
@@ -378,7 +418,7 @@ namespace Hitachi_Astemo
             }
             catch (Exception ex)
             {
-                MessageBox.Show( ex.Message, "Load VPP Fail!");
+                System.Windows.Forms.MessageBox.Show( ex.Message, "Load VPP Fail!");
             }
         }
 
@@ -402,13 +442,13 @@ namespace Hitachi_Astemo
                     lbPLCConnected.Text = "Không kết nối";
                     lbPLCConnected.ForeColor = Color.Red;
                     tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Không thể kết nối PLC\r\n");
-                    MessageBox.Show("Can not connected PLC");
+                    System.Windows.Forms.MessageBox.Show("Can not connected PLC");
                 }
                 
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                System.Windows.Forms.MessageBox.Show(ex.Message);
             }
             
             
@@ -427,7 +467,7 @@ namespace Hitachi_Astemo
                     lbLightsConnected.Text = "Không kết nối";
                     lbLightsConnected.ForeColor = Color.Red;
                     tbLog.AppendText($"{DateTime.Now.ToString("dd-MM-yy HH:mm")}: Không thể kết nối Đèn\r\n");
-                    MessageBox.Show("Cannot connect Lights");
+                    System.Windows.Forms.MessageBox.Show("Cannot connect Lights");
                     return;
                 }
                 else
@@ -445,7 +485,7 @@ namespace Hitachi_Astemo
 
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                System.Windows.Forms.MessageBox.Show(ex.Message);
             }
         }
         #endregion
